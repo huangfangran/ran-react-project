@@ -1,6 +1,6 @@
 import React from 'react';
 import {Form, Icon, Input, Button, message} from 'antd'
-import axios from '../../api/request'
+import {requestLogin} from '../../api'
 import {connect} from 'react-redux'
 
 import {saveUser} from '../../redux/action-creators'
@@ -38,7 +38,7 @@ class Login extends React.Component {
             // console.log(errors,values)
             const {username, password} = values;
             //如果表单校验成功
-            axios.post('http://localhost:3000/api/login', {username, password})
+            requestLogin(username,password)
                 .then((res) => {
                     // console.log(res);
                     message.success('登录成功');
@@ -47,7 +47,7 @@ class Login extends React.Component {
                     this.props.history.replace('/')
                 })
                 //清空密码
-                .finally(() => {
+                .catch(() => {
                     this.props.form.resetFields(['password'])
                 })
         })
