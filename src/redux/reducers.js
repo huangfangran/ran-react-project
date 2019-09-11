@@ -4,13 +4,25 @@
 
 import {combineReducers} from 'redux'
 
-function fn(prevState = {},action) {
+import {SAVE_USER} from './action-types'
+import {getItem, setItem} from '../utils/storage'
+
+const initUser = {
+    data: getItem('user') || {},
+    token: getItem('token') || ''
+};
+
+function user(prevState = initUser, action) {
     switch (action.type) {
+        case SAVE_USER:
+            setItem('user', action.data.data);
+            setItem('token', action.data.token);
+            return action.data;
         default:
             return prevState;
     }
 }
 
 export default combineReducers({
-    fn
+    user
 })

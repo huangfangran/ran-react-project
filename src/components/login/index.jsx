@@ -1,37 +1,56 @@
 import React from 'react';
-import {Form, Icon, Input, Button} from 'antd'
+import {Form, Icon, Input, Button, message} from 'antd'
+import axios from '../../api/request'
+import {connect} from 'react-redux'
 
+import {saveUser} from '../../redux/action-creators'
 import logo from './logo.png'
 import './index.less'
 
+@connect(null, {saveUser})
 @Form.create()
 class Login extends React.Component {
 
-    //点击登录时触发的事件
-    handleSubmit = (e)=>{
-        e.preventDefault();
-
-    };
-
-    validator = (rule,value,callback)=>{
-
-        console.log(rule);
-        const name = rule.field === 'username' ? '用户名':'密码';
+    //校验输入框的值
+    validator = (rule, value, callback) => {
+        const name = rule.field === 'username' ? '用户名' : '密码';
         const reg = /^[\w]{3,13}$/;
         //不能为空
-        if (!value){
+        if (!value) {
             return callback(`${name}不能为空`)
         }
         //长度在3-13位之间
-        if (value.length<3 || value.length>13){
+        if (value.length < 3 || value.length > 13) {
             return callback(`${name}长度必须大于3位且小于13位`)
         }
         //正则校验输入合法程度
-        if (!reg.test(value)){
+        if (!reg.test(value)) {
             return callback('只允许输入字母数字和下划线')
         }
-
         callback()
+    };
+
+    //点击登录时触发的事件
+    handleSubmit = (e) => {
+        e.preventDefault();
+        //表单校验通过才能发送请求
+        this.props.form.validateFields((errors, values) => {
+            // console.log(errors,values)
+            const {username, password} = values;
+            //如果表单校验成功
+            axios.post('http://localhost:3000/api/login', {username, password})
+                .then((res) => {
+                    // console.log(res);
+                    message.success('登录成功');
+                    //把获取到的成功的数据放到状态中
+                    this.props.saveUser(res);
+                    this.props.history.replace('/')
+                })
+                //清空密码
+                .finally(() => {
+                    this.props.form.resetFields(['password'])
+                })
+        })
     };
 
     render() {
@@ -48,7 +67,7 @@ class Login extends React.Component {
                         <Form.Item>
                             {
                                 getFieldDecorator(
-                                    'username',{rules:[{validator:this.validator}]}
+                                    'username', {rules: [{validator: this.validator}]}
                                 )(
                                     <Input prefix={<Icon type="user"/>} placeholder='请输入用户名'/>
                                 )
@@ -57,7 +76,7 @@ class Login extends React.Component {
                         <Form.Item>
                             {
                                 getFieldDecorator(
-                                    'password',{rules:[{validator:this.validator}]}
+                                    'password', {rules: [{validator: this.validator}]}
                                 )(
                                     <Input prefix={<Icon type="lock"/>} type='password' placeholder='请输入密码'/>
                                 )
