@@ -15,7 +15,7 @@ const initUser = {
 function user(prevState = initUser, action) {
     switch (action.type) {
         case SAVE_USER:
-            setItem('user', action.data.data);
+            setItem('user', action.data.user);
             setItem('token', action.data.token);
             return action.data;
         default:
