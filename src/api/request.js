@@ -16,7 +16,7 @@ instance.interceptors.request.use(
         const {token} = store.getState().user;
         //判断一下，是否需要加上token
         if (token){
-            config.headers.authorization = token;
+            config.headers.authorization = `Bearer ${token}`;
         }
         return config;
     }
