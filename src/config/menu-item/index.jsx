@@ -1,0 +1,57 @@
+
+export const menuItems = [
+    {
+        key:'/home',
+        icon:'home',
+        title:'首页'
+    },
+    {
+        key:' /appstore',
+        icon:'appstore',
+        title:'商品',
+        children:[
+            {
+                key:'/bars',
+                icon:'bars',
+                title:'分类管理'
+            },
+            {
+                key:'/tool',
+                icon:'tool',
+                title:'商品管理'
+            }
+        ]
+    },
+    {
+        key:'/user',
+        icon:'user',
+        title:'用户管理'
+    },
+    {
+        key:'/certificate',
+        icon:'safety-certificate',
+        title:'权限管理'
+    },
+    {
+        key:'/areaChart',
+        icon:'area-chart',
+        title:'图形图表',
+        children:[
+            {
+                key:'/barChart',
+                icon:'bar-chart',
+                title:'柱状图'
+            },
+            {
+                key:'/lineChart',
+                icon:'line-chart',
+                title:'折线图'
+            },
+            {
+                key:'/pieChart',
+                icon:'pie-chart',
+                title:'饼状图'
+            }
+        ]
+    }
+];
