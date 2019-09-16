@@ -5,6 +5,7 @@ import logo from "../../access/imgs/logo.png";
 import './index.less'
 import SideNav from "./side-nav";
 import WithCheckoutLogin from '../../container/with-checkout-login'
+import HeaderBasicLayout from "./header-basic-layout";
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -36,7 +37,9 @@ class BasicLayout extends React.Component {
                     <SideNav/>
                 </Sider>
                 <Layout>
-                    <Header style={{background: '#fff', padding: 0}}/>
+                    <Header style={{background: '#fff', padding: 0,height:80}}>
+                        <HeaderBasicLayout/>
+                    </Header>
                     <Content style={{margin: '0 16px'}}>
                         <Breadcrumb style={{margin: '16px 0'}}>
                             <Breadcrumb.Item>User</Breadcrumb.Item>

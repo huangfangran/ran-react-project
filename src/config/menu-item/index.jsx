@@ -1,7 +1,7 @@
 
 export const menuItems = [
     {
-        key:'/home',
+        key:'/',
         icon:'home',
         title:'首页'
     },
@@ -11,7 +11,7 @@ export const menuItems = [
         title:'商品',
         children:[
             {
-                key:'/bars',
+                key:'/category',
                 icon:'bars',
                 title:'分类管理'
             },

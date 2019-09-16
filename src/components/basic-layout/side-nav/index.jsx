@@ -1,10 +1,14 @@
 import React from 'react';
 import {Icon, Menu} from "antd";
+import {connect} from 'react-redux'
+
 import {withRouter, Link} from 'react-router-dom'
 import {menuItems} from "../../../config/menu-item";
+import {setTitle} from '../../../redux/action-creators'
 
 const {SubMenu} = Menu;
 
+@connect(null, {setTitle})
 @withRouter
 class SideNav extends React.Component {
 
@@ -19,7 +23,7 @@ class SideNav extends React.Component {
             </Menu.Item>
         )
     };
-    // 创建menu
+    //创建menu
     createMenus = () => {
         return menuItems.map((menu) => {
             if (menu.children) {
@@ -37,7 +41,7 @@ class SideNav extends React.Component {
             }
         })
     };
-    //    创建默认展开
+    //创建默认展开
     openKeys = (pathname) => {
         for (let i = 0; i < menuItems.length; i++) {
             const menu = menuItems[i];
@@ -52,11 +56,47 @@ class SideNav extends React.Component {
         }
     };
 
+    //选中menu
+    select = (x) => {
+        this.props.setTitle(x.item.node.innerText)
+    };
+    //初始化标题文字
+    initTitle = (pathname) => {
+        for (let i = 0; i < menuItems.length; i++) {
+            const menu = menuItems[i];
+            if (menu.children) {
+                for (let j = 0; j < menu.children.length; j++) {
+                    const menuChildren = menu.children[j];
+                    if (menuChildren.key === pathname) {
+                        // console.log(menuChildren.title);
+                        return menuChildren.title
+                    }
+                }
+            } else {
+                if (menu.key === pathname) {
+                    return menu.title
+                }
+            }
+        }
+    };
+
+    componentDidMount() {
+        const {pathname} = this.props.location;
+        const result = this.initTitle(pathname);
+        this.props.setTitle(result);
+    }
+
     render() {
         const {pathname} = this.props.location;
         const openKeys = this.openKeys(pathname);
         return (
-            <Menu theme="dark" defaultSelectedKeys={[pathname]} defaultOpenKeys={[openKeys]} mode="inline">
+            <Menu
+                theme="dark"
+                defaultSelectedKeys={[pathname]}
+                defaultOpenKeys={[openKeys]}
+                mode="inline"
+                onSelect={this.select}
+            >
                 {
                     this.createMenus()
                 }
