@@ -35,7 +35,7 @@ class Category extends React.Component {
         //表单验证成功再添加
         const myForm = this.createRef.current;
         myForm.validateFields((err, values) => {
-            console.log(values)
+            // console.log(values)
             if (!err) {
                 //表单验证通过
                 this.props.addCategory(values.categoryName);
@@ -70,6 +70,7 @@ class Category extends React.Component {
         //表单校验成功才能修改
         const form = this.updateCreateRef.current;
         form.validateFields((err, values) => {
+            console.log(values);
             if (!err) {
                 //表单校验通过
                 this.props.updateCategory(this.state.category._id, values.categoryName);
@@ -104,7 +105,7 @@ class Category extends React.Component {
     //点击删除的确定的事件
     deleteCategory = () => {
         const {category} = this.state;
-        console.log(category._id);
+        // console.log(category._id);
         this.props.deleteCategory(category._id);
         this.setState({
             isShowDeleteCategory:false
@@ -125,7 +126,6 @@ class Category extends React.Component {
         {
             title: '操作',
             render: (category) => {
-                // console.log(x);
                 return (
                     <div>
                         <Button type='link' onClick={this.showUpdateCategory(category)}>修改分类</Button>

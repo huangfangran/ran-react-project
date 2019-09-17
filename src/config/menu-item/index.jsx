@@ -16,7 +16,7 @@ export const menuItems = [
                 title:'分类管理'
             },
             {
-                key:'/tool',
+                key:'/product',
                 icon:'tool',
                 title:'商品管理'
             }

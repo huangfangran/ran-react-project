@@ -12,3 +12,6 @@ export const reqUpdateCategory = (categoryId,categoryName)=>axios.post('/categor
 
 //删除分类商品数据
 export const reqDeleteCategory = (categoryId)=>axios.post('/category/delete',{categoryId});
+
+//获取商品数据
+export const reqGetProducts = (pageNum,pageSize)=>axios.get('/product/list',{params:{pageNum,pageSize}});

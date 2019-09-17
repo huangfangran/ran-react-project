@@ -1,5 +1,6 @@
 import Home from '../components/home'
 import Category from '../container/category'
+import Product from '../container/product'
 const routes = [
     {
         path:'/',
@@ -10,6 +11,11 @@ const routes = [
         path:'/category',
         exact:true,
         component:Category
+    },
+    {
+        path:'/product',
+        exact:true,
+        component:Product
     }
 ];
 
