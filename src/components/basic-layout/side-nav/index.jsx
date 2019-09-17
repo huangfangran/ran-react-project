@@ -48,7 +48,7 @@ class SideNav extends React.Component {
             if (menu.children) {
                 for (let j = 0; j < menu.children.length; j++) {
                     const menuChildren = menu.children[j];
-                    if (menuChildren.key === pathname) {
+                    if (pathname.startsWith(menuChildren.key)) {
                         return menu.key
                     }
                 }
@@ -67,7 +67,7 @@ class SideNav extends React.Component {
             if (menu.children) {
                 for (let j = 0; j < menu.children.length; j++) {
                     const menuChildren = menu.children[j];
-                    if (menuChildren.key === pathname) {
+                    if (pathname.startsWith(menuChildren.key)) {
                         // console.log(menuChildren.title);
                         return menuChildren.title
                     }
@@ -87,7 +87,8 @@ class SideNav extends React.Component {
     }
 
     render() {
-        const {pathname} = this.props.location;
+        let {pathname} = this.props.location;
+        pathname = pathname.startsWith('/product')?'/product':pathname;
         const openKeys = this.openKeys(pathname);
         return (
             <Menu

@@ -40,18 +40,18 @@ class BasicLayout extends React.Component {
                     <Header style={{background: '#fff', padding: 0,height:80}}>
                         <HeaderBasicLayout/>
                     </Header>
-                    <Content style={{margin: '0 16px'}}>
+                    <Content style={{ margin: '0 16px 0 16px'}}>
                         <Breadcrumb style={{margin: '16px 0'}}>
                             <Breadcrumb.Item>User</Breadcrumb.Item>
                             <Breadcrumb.Item>Bill</Breadcrumb.Item>
                         </Breadcrumb>
-                        <div style={{padding: 24, background: '#fff', minHeight: 360}}>
+                        <div style={{padding: 24, background: '#fff',minHeight: 470}}>
                             {
                                 this.props.children
                             }
                         </div>
                     </Content>
-                    <Footer style={{textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>
+                    <Footer style={{textAlign: 'center',height:90}}>Ant Design ©2018 Created by Ant UED</Footer>
                 </Layout>
             </Layout>
         )

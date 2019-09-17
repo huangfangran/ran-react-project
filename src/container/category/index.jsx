@@ -77,7 +77,7 @@ class Category extends React.Component {
                 //隐藏对话框
                 this.setState({
                     isShowUpdateCategory: false
-                })
+                });
                 //清空input的value
                 this.updateCreateRef.current.resetFields()
             }
@@ -138,6 +138,7 @@ class Category extends React.Component {
 
     //初始化分类列表数据
     componentDidMount() {
+        if (this.props.categories.length) return;
         this.props.getCategories()
     }
 
