@@ -9,3 +9,6 @@ export const reqAddCategory = (categoryName)=>axios.post('/category/add',{catego
 
 //更新分类商品数据
 export const reqUpdateCategory = (categoryId,categoryName)=>axios.post('/category/update',{categoryId,categoryName});
+
+//删除分类商品数据
+export const reqDeleteCategory = (categoryId)=>axios.post('/category/delete',{categoryId});

@@ -2,20 +2,22 @@ import React from 'react';
 import {Card, Icon, Button, Table, Modal} from 'antd';
 import {connect} from 'react-redux'
 
-import {getCategories,addCategory,updateCategory} from '../../redux/action-creators'
+import {getCategories, addCategory, updateCategory, deleteCategory} from '../../redux/action-creators'
 import AddCategories from "./addCategories";
 import UpdateCategories from "./updateCategories";
 
 
 @connect(
     state => ({categories: state.categories}),
-    {getCategories,addCategory,updateCategory}
+    {getCategories, addCategory, updateCategory, deleteCategory}
 )
 class Category extends React.Component {
 
     state = {
         visible: false,
-        category:{}
+        isShowUpdateCategory: false,
+        isShowDeleteCategory: false,
+        category: {}
     };
 
     //创建ref
@@ -32,14 +34,14 @@ class Category extends React.Component {
     addCategory = () => {
         //表单验证成功再添加
         const myForm = this.createRef.current;
-        myForm.validateFields((err,values)=>{
-            // console.log(values)
-            if (!err){
+        myForm.validateFields((err, values) => {
+            console.log(values)
+            if (!err) {
                 //表单验证通过
                 this.props.addCategory(values.categoryName);
                 //隐藏对话框
                 this.setState({
-                    visible:false
+                    visible: false
                 });
                 //清空input的value
                 myForm.resetFields();
@@ -47,33 +49,33 @@ class Category extends React.Component {
         })
     };
     //创建添加的点击取消的事件
-    hidden = ()=>{
+    addHidden = () => {
         this.setState({
-            visible:false
+            visible: false
         })
     };
 
     //创建点击修改分类事件
-    showUpdateCategory = (category)=>{
-        console.log(category);
-        return ()=>{
+    showUpdateCategory = (category) => {
+        // console.log(category);
+        return () => {
             this.setState({
-                visible:true,
+                isShowUpdateCategory: true,
                 category
             })
         }
     };
     //点击修改的确定的事件
-    updateCategory = ()=>{
+    updateCategory = () => {
         //表单校验成功才能修改
         const form = this.updateCreateRef.current;
-        form.validateFields((err,values)=>{
-            if (!err){
+        form.validateFields((err, values) => {
+            if (!err) {
                 //表单校验通过
-                this.props.updateCategory(this.state.category._id,values.categoryName);
+                this.props.updateCategory(this.state.category._id, values.categoryName);
                 //隐藏对话框
                 this.setState({
-                    visible:false
+                    isShowUpdateCategory: false
                 })
                 //清空input的value
                 this.updateCreateRef.current.resetFields()
@@ -81,12 +83,38 @@ class Category extends React.Component {
         })
     };
     //点击修改的取消的事件
-    hiddenUpdateCategoryModal = ()=>{
+    hiddenUpdateCategoryModal = () => {
         this.setState({
-            visible:false
+            isShowUpdateCategory: false
         });
         //清空表单数据
         this.updateCreateRef.current.resetFields()
+    };
+
+    //创建点击删除分类事件
+    showDeleteCategory = (category) => {
+        // console.log(category);
+        return ()=>{
+            this.setState({
+                isShowDeleteCategory: true,
+                category
+            })
+        }
+    };
+    //点击删除的确定的事件
+    deleteCategory = () => {
+        const {category} = this.state;
+        console.log(category._id);
+        this.props.deleteCategory(category._id);
+        this.setState({
+            isShowDeleteCategory:false
+        })
+    };
+    //点击删除的取消的事件
+    deleteHidden = ()=>{
+        this.setState({
+            isShowDeleteCategory:false
+        })
     };
 
     columns = [
@@ -101,7 +129,7 @@ class Category extends React.Component {
                 return (
                     <div>
                         <Button type='link' onClick={this.showUpdateCategory(category)}>修改分类</Button>
-                        <Button type='link'>删除分类</Button>
+                        <Button type='link' onClick={this.showDeleteCategory(category)}>删除分类</Button>
                     </div>
                 )
             }
@@ -116,7 +144,7 @@ class Category extends React.Component {
     render() {
 
         const {categories} = this.props;
-        const {visible,category} = this.state;
+        const {visible, category, isShowUpdateCategory, isShowDeleteCategory} = this.state;
         return (
             <div>
                 <Card title="分类列表"
@@ -131,13 +159,14 @@ class Category extends React.Component {
                             pageSizeOptions: ['3', '6', '9', '12'],
                             defaultPageSize: 3
                         }}
+                        rowKey='_id'
                     />
                     {/*添加模块*/}
                     <Modal
-                        title="Modal"
+                        title="添加"
                         visible={visible}
                         onOk={this.addCategory}
-                        onCancel={this.hidden}
+                        onCancel={this.addHidden}
                         okText="确认"
                         cancelText="取消"
                         width={300}
@@ -146,8 +175,8 @@ class Category extends React.Component {
                     </Modal>
                     {/*修改模块*/}
                     <Modal
-                        title="Modal"
-                        visible={visible}
+                        title="修改"
+                        visible={isShowUpdateCategory}
                         onOk={this.updateCategory}
                         onCancel={this.hiddenUpdateCategoryModal}
                         okText="确认"
@@ -155,6 +184,18 @@ class Category extends React.Component {
                         width={300}
                     >
                         <UpdateCategories categoryName={category.name} ref={this.updateCreateRef}/>
+                    </Modal>
+                    {/*删除模块*/}
+                    <Modal
+                        title="删除"
+                        visible={isShowDeleteCategory}
+                        onOk={this.deleteCategory}
+                        onCancel={this.deleteHidden}
+                        okText="确认"
+                        cancelText="取消"
+                        width={300}
+                    >
+                        <h3>确定要删除当前分类列表嘛</h3>
                     </Modal>
                 </Card>
             </div>
