@@ -49,7 +49,7 @@ class Product extends React.Component {
             render: (product) => {
                 return (
                     <div>
-                        <Button type='link'>详情</Button>
+                        <Button type='link' onClick={this.showDesc(product)}>详情</Button>
                         <Button type='link' onClick={this.updateProduct(product)}>修改</Button>
                     </div>
                 )
@@ -123,6 +123,14 @@ class Product extends React.Component {
             prevSearchValue:searchValue
         });
         // console.log(result)
+    };
+
+    //点击详情
+    showDesc = (product)=>{
+        return ()=>{
+            console.log(product);
+            this.props.history.push('/product/desc',product)
+        }
     };
 
     render() {

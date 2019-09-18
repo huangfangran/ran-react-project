@@ -28,7 +28,7 @@ export const menuItems = [
         title:'用户管理'
     },
     {
-        key:'/certificate',
+        key:'/role',
         icon:'safety-certificate',
         title:'权限管理'
     },

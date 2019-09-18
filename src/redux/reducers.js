@@ -11,7 +11,10 @@ import {
     GET_CATEGORIES_SUCCESS,
     ADD_CATEGORY_SUCCESS,
     UPDATE_CATEGORY_SUCCESS,
-    DELETE_CATEGORY_SUCCESS
+    DELETE_CATEGORY_SUCCESS,
+    GET_ROLES_SUCCESS,
+    ADD_ROLE_SUCCESS,
+    UPDATE_ROLE_SUCCESS
 } from './action-types'
 import {getItem, setItem, removeItem} from '../utils/storage'
 
@@ -70,8 +73,25 @@ function categories(prevState = [], action) {
     }
 }
 
+//操作角色信息
+function roles(prevState=[],action) {
+    switch (action.type) {
+        case GET_ROLES_SUCCESS:
+            return action.data;
+        case ADD_ROLE_SUCCESS:
+            return [...prevState,action.data];
+        case UPDATE_ROLE_SUCCESS:
+            return prevState.map((role)=>{
+                return role._id === action.data._id ? action.data:role
+            });
+        default:
+            return prevState;
+    }
+}
+
 export default combineReducers({
     user,
     title,
-    categories
+    categories,
+    roles
 })

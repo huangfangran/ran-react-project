@@ -24,3 +24,18 @@ export const reqUpdateProduct = ({name,price,desc,detail,productId,categoryId})=
 
 //搜索商品数据
 export const reqSearchProducts = ({searchKey,searchValue,pageNum,pageSize})=>axios.get('/product/search',{params: {[searchKey]:searchValue,pageNum,pageSize}});
+
+//获取角色信息
+export const reqGetRoles = ()=>axios.get('/role/get');
+
+//添加角色信息
+export const reqAddRole = (name)=>axios.post('/role/add',{name});
+
+//更新角色权限
+export const reqUpdateRole = (roleId,authName,menus)=>axios.post('/role/update',{roleId,authName,menus});
+
+//获取用户列表
+export const reqGetUsers = ()=>axios.get('/user/get');
+
+//添加用户列表
+export const reqAddUser = ({username,password,phone,email,roleId})=>axios.post('/user/add',{username,password,phone,email,roleId});
